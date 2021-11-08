@@ -1,0 +1,44 @@
+﻿<h2>Product Entry</h2>
+
+<form id="addProduct">
+    <div class="row">
+        <div class="col-md-8">
+            <label>ProductName</label>
+            <input name="ProductName" />
+            <br />
+            <label>Unit</label>
+            <input name="Unit" />
+            <br />
+            <label>Rate</label>
+            <input name="Rate" />
+            <br />
+            <button id="saveBtn" type="button" class="btn btn-primary">Save</button>
+            <button type="cancelBtn" class="btn btn-danger">Cancel</button>
+
+        </div>
+    </div>
+
+
+</form>
+<script>
+    $("#saveBtn").click(function () {
+       
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Create", "Products")',
+                data: $("#addProduct").serialize()
+            })
+                .done(function (response) {
+                    $("#tableContainer").html(response),
+                        $("#actionTable").html("");
+                    focusAction("tableContainer");
+                })
+                .fail(function (xmlHttpRequest, textStatus, errorThrown) {
+                   
+                });
+    });
+    $("#cancelBtn").click(function () {
+        $("#actionTable").html("");
+        focusAction("tableContainer");
+    });
+</script>

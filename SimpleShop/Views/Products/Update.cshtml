@@ -1,0 +1,46 @@
+﻿@model SimpleShop.Models.Product
+
+<h2>Product Update</h2>
+
+<form id="updateProduct">
+    <div class="row">
+        <div class="col-md-8">
+            <input type="hidden" name="ID" value="@Model.Id" />
+            <label>ProductName</label>
+            <input name="ProductName" value="@Model.ProductName" />
+            <br />
+            <label>Unit</label>
+            <input name="Unit" value="@Model.Unit" />
+            <br />
+            <label>Rate</label>
+            <input name="Rate" value="@Model.Rate" />
+            <br />
+
+        </div>
+    </div>
+    <button id="updateBtn" type="button" class="btn btn-warning">Update</button>
+    <button id="cancelBtn" type="button" class="btn btn-primary">Cancel</button>
+</form>
+
+<script>
+    $("#updateBtn").click(function() {
+        $.ajax({
+                type: "POST",
+                url: '@Url.Action("Update", "Products")',
+                data: $("#updateProduct").serialize()
+            })
+            .done(function(response) {
+                $("#tableContainer").html(response),
+                    $("#actionTable").html("");
+                focusAction("tableContainer");
+            })
+            .fail(function(xmlHttpRequest, textStatus, errorThrown) {
+                alert("Fail");
+            });
+    });
+    $("#cancelBtn").click(function () {
+        $("#actionTable").html("");
+        focusAction("tableContiner");
+    });
+
+</script>

@@ -1,4 +1,5 @@
 ﻿using SimpleShop.Models;
+using SimpleShop.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,15 @@ namespace SimpleShop.Controllers
         }
         public PartialViewResult ProductList()
         {
-            var AllProducts = context.products.ToList();
+            ProductViewModel model = new ProductViewModel();
 
-            return PartialView(AllProducts);
+            model.AllProducts = context.products.ToList();
+
+            return PartialView(model);
         }
         public ActionResult Create()
         {
-            return View();
+            return PartialView();
         }
         [HttpPost]
         public ActionResult Create(Product product)
@@ -44,34 +47,29 @@ namespace SimpleShop.Controllers
             var prodcut = context.products.Find(Id);
             if (prodcut != null)
             {
-                return View(prodcut);
+                return PartialView(prodcut);
             }
 
             return View("Error");
         }
-        public JsonResult Update(Product product)
+        [HttpPost]
+        public ActionResult Update(Product product)
         {
-            JsonResult result = new JsonResult();
 
-            if (ModelState.IsValid)
-            {
-                var oldProduct = context.products.Find(product.Id);
 
-                oldProduct.ProductName = product.ProductName;
-                oldProduct.Unit = product.Unit;
-                oldProduct.Rate = product.Rate;
 
-                context.Entry(oldProduct).State = System.Data.Entity.EntityState.Modified;
-                context.SaveChanges();
+            var oldProduct = context.products.Find(product.Id);
 
-                result.Data = new { success = true };
-            }
-            else
-            {
-                result.Data = new { success = false, message = "Invalid Update Inputs." };
-            }
+            oldProduct.ProductName = product.ProductName;
+            oldProduct.Unit = product.Unit;
+            oldProduct.Rate = product.Rate;
 
-            return result;
+            context.Entry(oldProduct).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
+
+
+
+            return RedirectToAction("ProductList");
         }
 
     }
