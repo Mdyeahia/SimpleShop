@@ -1,0 +1,43 @@
+﻿@model SimpleShop.Models.Product
+
+<thead>
+    <tr>
+        <th>Id</th>
+        <th>ProductName</th>
+        <th>Rate</th>
+        <th>Unit</th>
+        <th>Action</th>
+    </tr>
+</thead>
+<tbody>
+    @if (Model. != null && Model.AllAuctions.Count() > 0)
+    {
+        foreach (var auction in Model.AllAuctions)
+        {
+            <tr>
+                <td>@auction.Title</td>
+                <td>@auction.Category.Name</td>
+                <td>$@auction.ActualPrice</td>
+                @if (auction.Bids != null && auction.Bids.Count() > 0)
+                {
+                    <td>@auction.Bids.Count</td>
+                }
+                else
+                {
+                    <td>0</td>
+                }
+                <td>
+                    <button data-id="@auction.Id" class="editBtn btn btn-info">Edit</button>
+                    <button data-id="@auction.Id" class="deleteBtn btn btn-danger">Delete</button>
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="4" class="text-center alert alert-danger">No auctions found.</td>
+        </tr>
+    }
+</tbody>
+</table>
