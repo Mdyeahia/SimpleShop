@@ -40,7 +40,7 @@ namespace SimpleShop.Controllers
             context.products.Add(newProduct);
             context.SaveChanges();
 
-            return View();
+            return RedirectToAction("ProductList");
         }
         public ActionResult Update(int Id)
         {

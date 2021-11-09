@@ -1,0 +1,42 @@
+﻿<h2>Customer Entry</h2>
+
+<form id="addCustomer">
+    <div class="row">
+        <div class="col-md-8">
+            <label>CustomerName</label>
+            <input name="CustomerName" />
+            <br />
+            <label>CustomerAddress</label>
+            <input name="CustomerAddress" />
+            
+            <br />
+            <button id="saveBtn" type="button" class="btn btn-primary">Save</button>
+            <button type="cancelBtn" class="btn btn-danger">Cancel</button>
+
+        </div>
+    </div>
+
+
+</form>
+<script>
+    $("#saveBtn").click(function () {
+       
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Create", "Customers")',
+                data: $("#addCustomer").serialize()
+            })
+                .done(function (response) {
+                    $("#tableContainer").html(response),
+                        $("#actionTable").html("");
+                    focusAction("tableContainer");
+                })
+                .fail(function (xmlHttpRequest, textStatus, errorThrown) {
+                   
+                });
+    });
+    $("#cancelBtn").click(function () {
+        $("#actionTable").html("");
+        focusAction("tableContainer");
+    });
+</script>
