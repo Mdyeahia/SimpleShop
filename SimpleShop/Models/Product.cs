@@ -9,7 +9,7 @@ namespace SimpleShop.Models
     {
         public int Id { get; set; }
         public string ProductName { get; set; }
-        public decimal Unit { get; set; }
+        public string Unit { get; set; }
         public decimal Rate { get; set; }
     }
 }

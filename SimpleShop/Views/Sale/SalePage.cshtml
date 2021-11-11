@@ -1,0 +1,103 @@
+﻿@model SimpleShop.ViewModels.SaleViewModel
+@{
+    ViewBag.Title = "SalePage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<form>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Customer</label>
+                <select class="form-control" name="CustomerId" id="SelectCategory">
+                    <option value="0">Select</option>
+                    @foreach (var customer in Model.AllCustomers)
+                    {
+                        <option value="@customer.Id">@customer.CustomerName</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Product</label>
+                <select class="form-control" name="ProductId" id="SelectProduct">
+                    <option value="0">Select</option>
+                    @foreach (var product in Model.AllProducts)
+                    {
+                        <option value="@product.Id">@product.ProductName</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div id="customerpage">
+    
+</div>
+<div id="productpage">
+
+</div>
+<script>
+
+    $("#SelectCategory").change(function () {
+        $.ajax({
+            type:"post",
+            url: '@Url.Action("CustomerSelectSave", "Sale")',
+            data: {
+
+                customerId: $("#SelectCategory").val()
+            }
+        })
+            .done(function (response) {
+                $("#customerpage").html(response);
+
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("FAIL");
+            });
+    });
+    $("#SelectProduct").change(function () {
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("ProductSelectSave", "Sale")',
+            data: {
+
+                productId: $("#SelectProduct").val(),
+                customerId:$("#SelectCategory").val()
+            }
+        })
+            .done(function (response) {
+                $("#productpage").html(response);
+
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("FAIL");
+            });
+    });
+    $("#SelectCategory").on("change", function(){
+
+        var url = '@Url.Action("CustomerInfo", "Sale")' + "?customerId="  + $(this).val();
+
+        $("#customerpage").load(url, function(){
+         console.log("It worked");
+
+    })
+})
+    $("#SelectProduct").on("change", function () {
+
+        var url = '@Url.Action("SaleProductList", "Sale")' + "?saleId=" + $(this).val();
+
+        $("#productpage").load(url, function () {
+           console.log("It worked");
+
+       })
+   })
+</script>

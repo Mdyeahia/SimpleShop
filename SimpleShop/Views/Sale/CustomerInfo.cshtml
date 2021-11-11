@@ -1,0 +1,29 @@
+﻿@model SimpleShop.ViewModels.SaleInfoViewModel
+
+<div class="row">
+    <input id="salehidden" type="hidden"value="@Model.customerin.Id"/>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Address</label>
+            <p>@Model.customerin.Customer.CustomerName</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Address</label>
+            <p>@Model.customerin.DeliveryAddress</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>DateTime</label>
+            <p>@Model.customerin.SaleDateTime</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>TotalAmount</label>
+            <p id="totalvalue">@Model.customerin.TotalAmount</p>
+        </div>
+    </div>
+</div>

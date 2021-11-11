@@ -27,6 +27,8 @@ namespace SimpleShop.Models
 
         public DbSet<Product> products { get; set; }
         public DbSet<Customer> customers { get; set; }
+        public DbSet<Sale> sales { get; set; }
+        public DbSet<SaleProduct> saleProducts { get; set; }
 
 
 

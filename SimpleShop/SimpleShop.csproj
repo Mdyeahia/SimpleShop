@@ -172,6 +172,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\SaleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -179,16 +180,31 @@
     <Compile Include="Migrations\202111081110333_ProductCustomerModelAdded.Designer.cs">
       <DependentUpon>202111081110333_ProductCustomerModelAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202111101030395_ProductUnitrecheck.cs" />
+    <Compile Include="Migrations\202111101030395_ProductUnitrecheck.Designer.cs">
+      <DependentUpon>202111101030395_ProductUnitrecheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202111101056296_SaleModelAdded.cs" />
+    <Compile Include="Migrations\202111101056296_SaleModelAdded.Designer.cs">
+      <DependentUpon>202111101056296_SaleModelAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202111111126166_SaleProductModelAdde.cs" />
+    <Compile Include="Migrations\202111111126166_SaleProductModelAdde.Designer.cs">
+      <DependentUpon>202111111126166_SaleProductModelAdde.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Sale.cs" />
+    <Compile Include="Models\SaleProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CustomerViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\SaleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -211,7 +227,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -254,6 +269,9 @@
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Customers\CustomerList.cshtml" />
     <Content Include="Views\Customers\Update.cshtml" />
+    <Content Include="Views\Sale\SaleProductList.cshtml" />
+    <Content Include="Views\Sale\SalePage.cshtml" />
+    <Content Include="Views\Sale\CustomerInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -274,6 +292,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202111081110333_ProductCustomerModelAdded.resx">
       <DependentUpon>202111081110333_ProductCustomerModelAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111101030395_ProductUnitrecheck.resx">
+      <DependentUpon>202111101030395_ProductUnitrecheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111101056296_SaleModelAdded.resx">
+      <DependentUpon>202111101056296_SaleModelAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111111126166_SaleProductModelAdde.resx">
+      <DependentUpon>202111111126166_SaleProductModelAdde.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
