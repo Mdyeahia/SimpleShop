@@ -3,7 +3,8 @@
     ViewBag.Title = "SalePage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
 <form>
     <div class="row">
         <div class="col-md-6">
@@ -19,7 +20,7 @@
 
             </div>
         </div>
-        
+
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -38,19 +39,22 @@
     </div>
 
 </form>
-
-<div id="customerpage">
-    
-</div>
-<div id="productpage">
-
+<div id="finaldiv">
+    <div>
+        <form id="customerpage">
+        </form>
+    </div>
+    <div>
+        <form id="productpage">
+        </form>
+    </div>
 </div>
 <script>
 
     $("#SelectCategory").change(function () {
         $.ajax({
             type:"post",
-            url: '@Url.Action("CustomerSelectSave", "Sale")',
+            url: '@Url.Action("SaleSave", "Sale")',
             data: {
 
                 customerId: $("#SelectCategory").val()
@@ -67,7 +71,7 @@
     $("#SelectProduct").change(function () {
         $.ajax({
             type: "post",
-            url: '@Url.Action("ProductSelectSave", "Sale")',
+            url: '@Url.Action("SaleProductSave", "Sale")',
             data: {
 
                 productId: $("#SelectProduct").val(),
@@ -82,22 +86,54 @@
                 alert("FAIL");
             });
     });
-    $("#SelectCategory").on("change", function(){
+    @*$("#SelectCategory").on("change", function(){
 
         var url = '@Url.Action("CustomerInfo", "Sale")' + "?customerId="  + $(this).val();
 
         $("#customerpage").load(url, function(){
          console.log("It worked");
 
-    })
-})
-    $("#SelectProduct").on("change", function () {
+        })
+    })*@
+    
+    function increment() {
+        document.getElementById('demoInput').stepUp();
+    }
+    function decrement() {
+        document.getElementById('demoInput').stepDown();
+    }
 
-        var url = '@Url.Action("SaleProductList", "Sale")' + "?saleId=" + $(this).val();
 
-        $("#productpage").load(url, function () {
-           console.log("It worked");
+       
+        
 
-       })
-   })
+        
+
+    @* $("#saveBtn").click(function () {
+        if ($("#createProduct").valid()) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Create", "Product")',
+                data: $("#createProduct").serialize()
+
+            })
+                .done(function (response) {
+                    $("#tableContainer").html(response),
+                        $("#actionTable").html("");
+                    focusAction("tableContainer");
+                })
+                .fail(function (xmlHttpRequest, textStatus, errorThrown) {
+                    alert("Fail");
+                });
+        }
+        else {
+            swal({
+                title: "Warning",
+                text: "Please enter all valid data in fields.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            });
+        }
+    });*@
 </script>

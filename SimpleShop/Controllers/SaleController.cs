@@ -3,6 +3,7 @@ using SimpleShop.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -25,14 +26,14 @@ namespace SimpleShop.Controllers
 
             return View(model);
         }
-        public  ActionResult SaleProductList(int saleId)
+        public  ActionResult SaleProductInfo(int saleId)
         {
             SaleInfoViewModel model = new SaleInfoViewModel();
-            model.productin =  context.saleProducts.Where(s=>s.Id==saleId).ToList();
+            model.productin =  context.saleProducts.Where(s=>s.SaleId==saleId).ToList();
 
             return PartialView(model);
         }
-        public ActionResult CustomerInfo(int customerId)
+        public ActionResult SaleInfoCustomer(int customerId)
         {
             SaleInfoViewModel model = new SaleInfoViewModel();
 
@@ -40,7 +41,7 @@ namespace SimpleShop.Controllers
             
             return PartialView(model);
         }
-        public   void CustomerSelectSave(int customerId)
+        public ActionResult SaleSave(int customerId)
         {
             var customerinfo = context.customers.Find(customerId);
             
@@ -55,8 +56,10 @@ namespace SimpleShop.Controllers
             context.sales.Add(newSale);
             context.SaveChanges();
 
+            return RedirectToAction("SaleInfoCustomer", new { customerId =newSale.CustomerId});
+
         }
-        public void ProductSelectSave(int productId, int customerId)
+        public ActionResult SaleProductSave(int productId, int customerId)
         {
             var productinfo = context.products.Find(productId);
             var saleid = context.sales.OrderByDescending(p => p.Id).Where(p => p.CustomerId == customerId).First();
@@ -73,28 +76,38 @@ namespace SimpleShop.Controllers
             context.saleProducts.Add(newProductSale);
             context.SaveChanges();
 
+            return RedirectToAction("SaleProductInfo", new { saleId = newProductSale.SaleId });
         }
-        public ActionResult TotalInfoUpdate(TotalInfosave model)
+        [HttpPost]
+        public JsonResult TotalInfoUpdate(int customerId,int saleId, decimal totalamount,decimal qty,decimal amount)
         {
-            var saleinfo = context.sales.Find(model.saleId);
+            JsonResult result = new JsonResult();
+            if (ModelState.IsValid)
+            {
+                var saleinfo = context.sales.OrderByDescending(p => p.Id).Where(p => p.CustomerId == customerId).First();
 
-            saleinfo.CustomerId = model.CustomerId;
-            saleinfo.DeliveryAddress = model.DeliveryAddress;
-            saleinfo.SaleDateTime = DateTime.Now;
-            saleinfo.TotalAmount = model.TotalAmount;
-           
-            var saleproductinfo = context.saleProducts.Find(model.saleProductId);
-            saleproductinfo.SaleId = model.CustomerId;
-            saleproductinfo.ProductId = model.productName;
-            saleproductinfo.Qty = model.Qty;
-            saleproductinfo.Rate = model.Rate;
-            saleproductinfo.Amount = model.Amount;
+                saleinfo.TotalAmount = totalamount;
 
-            context.Entry(saleinfo).State = System.Data.Entity.EntityState.Modified;
-            context.Entry(saleproductinfo).State = System.Data.Entity.EntityState.Modified;
-            context.SaveChanges();
+                var saleproductinfo = context.saleProducts.Find(saleId);
 
-            return RedirectToAction("SalePage");
+                saleproductinfo.Qty = qty;
+
+                saleproductinfo.Amount = amount;
+
+                context.Entry(saleinfo).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+                context.Entry(saleproductinfo).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+                
+
+                result.Data = new { success = true };
+            }
+            else
+            {
+                result.Data = new { success = false, message = "Invalid update" };
+            }
+            return result;
+
         }
     }
 }

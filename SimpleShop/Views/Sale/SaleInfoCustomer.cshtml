@@ -1,7 +1,7 @@
 ﻿@model SimpleShop.ViewModels.SaleInfoViewModel
 
 <div class="row">
-    <input id="salehidden" type="hidden"value="@Model.customerin.Id"/>
+    <input id="salehidden" type="hidden" value="@Model.customerin.Id" />
     <div class="col-md-3">
         <div class="form-group">
             <label>Address</label>
@@ -23,7 +23,20 @@
     <div class="col-md-3">
         <div class="form-group">
             <label>TotalAmount</label>
-            <p id="totalvalue">@Model.customerin.TotalAmount</p>
+            <input id="totalvalue" value="@Model.customerin.TotalAmount" readonly>
         </div>
     </div>
 </div>
+<script>
+    calc_total();
+    function calc_total() {
+        var sum = 0;
+        $(".total").each(function () {
+            sum += parseFloat($(this).val());
+        });
+        $('#totalvalue').val(sum);
+
+    };
+    
+
+</script>

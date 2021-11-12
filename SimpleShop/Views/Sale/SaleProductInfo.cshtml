@@ -1,0 +1,98 @@
+﻿@model SimpleShop.ViewModels.SaleInfoViewModel
+@{
+    ViewBag.Title = "SaleProductList";
+   
+}
+
+<h2>SaleProduct</h2>
+
+
+    
+        <table name="cart" id="autocomplete_table" style="width: 100%">
+            <thead>
+                <tr>
+                    
+                    <th>ProductName</th>
+                    <th>Unit</th>
+                    <th>Qty</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.productin != null && Model.productin.Count() > 0)
+                {
+                    
+                    foreach (var product in Model.productin)
+                    {
+                        <tr>
+                           
+                            <td>@product.ProductId
+                                <input type="hidden" value="@product.Id" id="salefinalid" /></td>
+                            <td>PCS</td>
+                            <td>
+                                <input class="choose" type=number min=0 max=100 value="@product.Qty">
+                            </td>
+                            <td><input class="price"type=number value="@product.Rate"/></td>
+                            <td><input class="total"type=number value="@product.Amount"/></td>
+                        </tr>
+                        
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-center alert alert-danger">No products found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+   <script>
+       
+       $('.choose').on('change', function () {
+           var parent = $(this).closest('tr');
+           var price = parseFloat($('.price', parent).val());
+           var choose = parseFloat($('.choose', parent).val());
+           var slid = parseFloat($("#salefinalid", parent).val());
+           $('.total', parent).val(choose * price);
+          
+           calc_total();
+           var Amount = parseFloat($('.total', parent).val());
+        
+           final(slid,choose, Amount);
+       });
+       function final(sl,qt,am) {
+
+        var CustomerId = $("#SelectCategory").val();
+        /*var sellid = $("#salefinalid").val();*/
+        var Totalamount = $("#totalvalue").val();
+        var sellid = sl;
+        var Qty =qt;
+        var Amount =am;
+         
+
+        
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("TotalInfoUpdate", "Sale")',
+            data: {
+                customerId: CustomerId,
+                saleId: sellid,
+                totalamount:Totalamount,
+                qty:Qty,
+                amount:Amount
+            }
+        }).done(function (response) {
+            if (response.success) {
+                console.log("work");
+            }
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("FAIL");
+            });
+    
+    };
+   </script>
+
+
